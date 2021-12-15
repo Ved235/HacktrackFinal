@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrainChat</title>
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/live/3.1/firebase.js"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="tingle-master/dist/tingle.min.css">
+</head>
+<body>
+
+    <button id="home" onclick="home();" class="glyphicon glyphicon-home btn btn-danger" style="background-color: black;"></button>
+<button id="logout" onclick="logout();" class="glyphicon glyphicon-log-out btn btn-danger"></button>
+<div class="container">
+    <center>
+        <div style="align-self: center;width: 80%;">
+        <h4 id="output2">    
+        </h4>
+        </div>        
+        <div id="output10" style="text-align: left;margin-top: 25px;overflow-y: scroll;"> </div>
+    </center>
+</div>
+
+<center>
+    <div class="input_div_message_page">
+        <input type="text" id="msg" class="input100" placeholder="Write your answer">
+        <span class="focus-input100"></span>
+        <ul>
+		<li><button onclick="messages()" style="margin-bottom: 22px;background-color: black;border: none;" class="btn btn-success" id="buttontext">Post</button></li>
+        
+        <li><button id="select"><img src="link.png" style="width: 15px;height: 15px;margin-left: 0px;"></button></li>
+        <li><button id="draw"><img src="https://cdn.discordapp.com/attachments/918077642668912650/920704336391184474/drawing.png" style="width: 15px;height: 15px;margin-left: 0px;"></button></li>
+		</ul>
+    </div>
+</center>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+
+<script src="rep.js"></script>
+<script src="tingle-master/dist/tingle.min.js"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyCiCjNo7h8SBeIpy54_x5Fp9K4u2rYU68o",
+    authDomain: "repcard-68a86.firebaseapp.com",
+    databaseURL: "https://repcard-68a86-default-rtdb.firebaseio.com",
+    projectId: "repcard-68a86",
+    storageBucket: "repcard-68a86.appspot.com",
+    messagingSenderId: "268606048540",
+    appId: "1:268606048540:web:9fc7a08a01bc124f2e92d9"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+    import{
+        getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField
+    }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const db = getFirestore();
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    var modal = new tingle.modal({
+    footer: true,
+    stickyFooter: false,
+    closeMethods: ['overlay', 'button', 'escape'],
+    closeLabel: "Close",
+    cssClass: ['custom-class-1', 'custom-class-2'],
+    onOpen: function() {
+        console.log('modal open');
+    },
+    onClose: function() {
+        console.log('modal closed');
+    },
+    beforeClose: function() {
+        // here's goes some logic
+        // e.g. save content before closing the modal
+        return true; // close the modal
+        return false; // nothing happens
+    }
+});
+
+// set content
+modal.setContent("<center><img style='height: 200px; width: 200px; border: 2px solid black;' id='myImg'></center>");
+
+// add a button
+modal.addFooterBtn('Upload', 'tingle-btn tingle-btn--success upload', function() {
+    // here goes some logic
+    console.log("uploading_image");
+    setTimeout(() => {
+        modal.close();
+    }, 1000);
+    Call();
+    console.log(myImg.src);
+});
+    // instanciate new modal
+
+
+// add another button
+modal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--danger', function() {
+    // here goes some logic
+    modal.close();
+});
+
+document.getElementById("select").addEventListener("click", function(){
+    setTimeout(() => {
+        modal.open();
+    }, 4000);
+});
+
+/////////////////////////////////////////////////////////////////////////
+
+var modalDraw = new tingle.modal({
+    footer: true,
+    stickyFooter: false,
+    closeMethods: ['overlay', 'button', 'escape'],
+    closeLabel: "Close",
+    cssClass: ['custom-class-1', 'custom-class-2'],
+    onOpen: function() {
+        console.log('modal open');
+    },
+    onClose: function() {
+        console.log('modal closed');
+        clearArea();
+    },
+    beforeClose: function() {
+        // here's goes some logic
+        // e.g. save content before closing the modal
+        return true; // close the modal
+        return false; // nothing happens
+    }
+});
+//content
+modalDraw.setContent("<center><canvas id='myCanvas' width='400' height='400'></canvas><br><button class='tryooo' id='clear'>Clear Area</button></center>");
+modalDraw.addFooterBtn('Upload', 'tingle-btn tingle-btn--primary', function() {
+    var imgCanvas = document.getElementById("myCanvas");
+    var canvasImage = imgCanvas.toDataURL();
+    // here goes some logic
+    console.log(canvasImage);
+    canvasSave(canvasImage);
+    setTimeout(() => {
+        modalDraw.close();
+        clearArea();
+    }, 1000);  
+});
+modalDraw.addFooterBtn('Cancel', 'tingle-btn tingle-btn--danger', function() {
+    // here goes some logic
+    modal.close();
+});
+document.getElementById("draw").addEventListener("click", function(){
+    modalDraw.open();
+    start();
+});
+</script>
+
+</body>
+</html>

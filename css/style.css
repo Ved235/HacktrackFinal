@@ -1,0 +1,261 @@
+html, body
+{
+  height: 100%;
+  margin: 0;
+}
+
+body
+{
+background-color: #f3efef;
+
+}
+
+.header
+{
+    color: white;font-family: 'Yeon Sung';font-size: 36px;letter-spacing: 10px;margin-top: 80px;
+    margin-bottom: 20px;
+}
+.header img
+{
+    width: 80px;margin-left: -15px;
+}
+
+.login_div
+{
+    background: rgba(255,255,255,0.8);float: none;border-radius: 15px;
+}
+
+.logo
+{
+    width: 80px;margin-top: 30px;border-radius: 40px;
+}
+
+#login_button, #register_button, #changePas, #forgotPas
+{
+    width: 80%;border-radius: 15px;
+}
+
+.room_name
+{
+
+    font-size: 20px;
+    display: inline-block;
+    text-align: left;
+    margin-left: 10px;
+    width: 100%;
+
+}
+
+
+#logout
+{
+    font-size: 20px; float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    background-color: black;
+    border: none;
+}
+.answer{
+    width: 100px;
+    height: 30px;
+    color: black;
+    cursor: pointer;
+}
+.answertext{
+    color: grey;
+    margin-left: 45px;
+    margin-top: 8px;
+    
+}
+.star{
+    float: left;
+    fill: red;
+}
+.answerimage{
+    width: 100%;
+    height: auto;
+    max-width: 30px;
+    max-height: 30px;
+    margin-left: 10px;
+    float: left;
+    margin-top: 5px;
+    
+
+}
+#output
+{
+    padding: 10px; width:80%;background-color: white;border-radius: 0px;font-weight: bold;text-align: left;border: 1px solid grey;height: auto;
+}
+#output10{
+    padding: 10px; width:80%;background-color: white;border-radius: 0px;font-weight: bold;text-align: left;border: 1px solid grey;height: auto;max-height: 700px;
+}
+hr {
+    border-top: 1px solid grey;
+}
+#output2{
+    font-weight: bold;
+    text-align: justify;
+    justify-content: center;
+    margin-top: 15px;
+}
+.input_div_room_page
+{
+    width: 80%;
+}
+#roomButton{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: black;
+    border: none;
+}
+#roomButton:hover{
+    background-image: linear-gradient(
+        45deg, rgb(0, 219, 222), rgb(252, 0, 255));
+        
+}
+.input_div label
+{
+    color: white;font-size: 20px;
+}
+
+#save, #delete
+{
+    width: 50%;
+    font-weight: bolder;
+    font-size: 18px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    letter-spacing: 2px;
+}
+.input_div_message_page label
+{
+    color: black;
+}
+.input_div_message_page 
+{
+    width: 80%;
+	
+}
+.input_div_message_page button
+{
+    margin-top: 15px;
+    width: 50%; 
+}
+.color_white
+{
+    color: white
+}
+
+.user_tick
+{
+    width:20px;
+}
+.message_h4
+{
+    padding-left:5px;color:grey;
+}
+.message_h4_bold{
+    padding-left:5px;color:black;
+    font-weight: 800;
+}
+.copy_right_footer
+{
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
+    position: fixed;
+    color: white;
+    bottom: 0;
+    width: 100%;
+    background-color: grey;
+    line-height: 3;
+    text-align: center;
+}
+.subject{
+    bottom: 0px;width: 31%;background: rgba(255,255,255,0.8);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+.hold{
+    width: 100%;
+    height: auto;
+    max-width: 925px;
+    
+}
+.marks{
+    width: 40%;
+    margin-top: 7px;
+    margin-bottom: 10px;
+}
+
+#save{
+    width: 100%;
+}
+
+#home{
+    font-size: 20px; float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+#teacher{
+    background-color: #33a0f1;
+}
+
+#student{
+    background-color: #075783;
+}
+
+.input_div_message_page
+{
+    position: fixed;bottom: 0px;width: 100%;background: rgba(255,255,255);border-radius: 0px;
+	margin-top: 50px;
+}
+#buttontext:hover, .upload:hover{
+    background-image: linear-gradient(
+        45deg, rgb(0, 219, 222), rgb(252, 0, 255));
+}
+#buttontext, .upload{
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+}
+.imagenew:hover{
+	transform: scale(1.5);
+	cursor: pointer;
+	display: inline-block;
+	margin: 50px;
+}
+
+ul {
+	padding: 0;
+	margin: 50px 20px;
+	list-style: none;
+}
+ul li {
+	margin: 5px;
+	display: inline-block;
+}
+ul li button img {
+	width: 125px;
+	height: 125px;
+	display: block;
+
+}
+
+.upload{
+    margin-bottom: 22px;background-color: black;border: none; display: flex;align-self: center;
+}
+
+#myCanvas
+  {
+      background-color: white; 
+      border: 1px solid #000;
+  }
+
+  .tryooo{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 42px;
+    font-size: 16px;
+  }

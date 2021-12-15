@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BrainChat</title>
+<link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('https://media.discordapp.net/attachments/828846266381107220/920172899237765140/44a11ea94ad8a253ff9de5565c47cf4f.png?width=1089&height=612');">
+			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33" >
+				<form class="change" method="post" style="padding: 50px;">
+					<span class="login100-form-title p-b-53" style="margin-bottom: 30px;">
+						Sign Up
+					</span>
+					<div>
+						<span class="txt1">
+							Username
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Username is required">
+						<input class="input100" type="text" name="username" id="user_name" >
+						<span class="focus-input100"></span>
+					</div>
+					
+					<div style="margin-top: 10px;"	>
+						<span class="txt1">
+							Password
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Password is required" style="margin-top: 10px;">
+						<input class="input100" type="password" name="pass" id="password" >
+						<span class="focus-input100"></span>
+					</div>
+
+					<div style="margin-top: 10px;">
+						<span class="txt1" >
+							Email
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" style="margin-top: 10px;">
+						<input class="input100" type="email" name="E-mail ID" id="email" >
+						<span class="focus-input100"></span>
+					</div>
+					<center>
+					<div style="margin-top: 10px;">
+						<span class="txt1" >
+							Occupation
+						</span>
+					</div>
+					
+					<button id="student" style="margin-top: 5px;">STUDENT</button>
+					<button id="teacher">TEACHER</button>
+					</center>
+					<div style="margin-top: 15px;">
+						<button class="login100-form-btn" id="register_button">
+							Register
+						</button>
+					</div>
+
+					<div style="text-align: center;margin-top: 10px;">
+						<span class="txt2">
+							Already a member?
+						</span>
+
+						<a href="index.html">
+							Login now
+						</a>
+						<br>
+						<img src="https://cdn.discordapp.com/attachments/918077642668912650/920705244474777650/unknown.png" style="width: 300px; height: 100px;">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<script type="module">
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
+	// TODO: Add SDKs for Firebase products that you want to use
+	// https://firebase.google.com/docs/web/setup#available-libraries
+  
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+	  apiKey: "AIzaSyCiCjNo7h8SBeIpy54_x5Fp9K4u2rYU68o",
+	  authDomain: "repcard-68a86.firebaseapp.com",
+	  projectId: "repcard-68a86",
+	  storageBucket: "repcard-68a86.appspot.com",
+	  messagingSenderId: "268606048540",
+	  appId: "1:268606048540:web:9fc7a08a01bc124f2e92d9"
+	};
+  
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+
+	import{
+		getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField
+	}
+	from "https://www.gstatic.com/firebasejs/9.3.0/firebase-firestore.js";
+
+	const db = getFirestore();
+
+	//CODE MAIN//
+
+	let nameBox = document.getElementById("user_name");
+	let pasBox = document.getElementById("password");
+	var person = "student";
+
+	let regBtn = document.getElementById("register_button");
+	let email = document.getElementById("email");
+	let teacher = document.getElementById("teacher");
+	let student = document.getElementById("student");
+	var selectf = false;
+	teacher.addEventListener("click", select);
+	student.addEventListener("click", selects);
+
+	async function select(e){
+        e.preventDefault();
+			teacher.style.color = '#fc00ff';
+			selectf = true;
+			student.style.color = 'black';
+			person = "teacher";		
+	}
+
+	async function selects(e){
+		e.preventDefault();
+		student.style.color = '#fc00ff'
+			selectf = false;
+			teacher.style.color = 'black';
+			person = "student";
+	}
+
+	async function AddDocument_CustomID(){
+		var ref = doc(db, "UsersList", nameBox.value);
+
+		if(nameBox.value == ""){
+			alert("Please enter a user name");
+		}else if(nameBox.value != "" && pasBox.value == ""){
+			alert("Please enter a password");
+		} else if(nameBox.value != "" && pasBox.value != "" && email.value == ""){
+			alert("Please enter an email ID");
+		} else{
+			const docRef = await setDoc(
+		ref, {
+			UserName: nameBox.value,
+			Password: pasBox.value,
+			emailID: email.value,
+			proffesion: person
+		}
+	)
+
+	.then(()=>{
+		alert("User Registered");
+		setTimeout(() => {
+			window.location = "index.html";
+		}, 1000);
+	})
+	.catch((error)=>{
+		alert("Unsuccessful, error: " + error);
+	})
+	
+		}
+
+	}
+
+	async function CheckDoc(e){
+        e.preventDefault();
+		var ref = doc(db, "UsersList", nameBox.value);
+
+		const docSnap = await getDoc(ref);
+
+		if(docSnap.exists()){
+			alert("User already exists");
+		} else{
+			AddDocument_CustomID();
+		}
+	}
+
+	regBtn.addEventListener("click", CheckDoc);
+  </script>
+
+</body>
+</html>

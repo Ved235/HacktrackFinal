@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BrainChat</title>
+<link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('https://media.discordapp.net/attachments/828846266381107220/920172899237765140/44a11ea94ad8a253ff9de5565c47cf4f.png?width=1089&height=612');">
+			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33" >
+				<form class="change" method="post" style="padding: 50px;" >
+					<span class="login100-form-title p-b-53" style="margin-bottom: 30px;">
+						Sign In
+					</span>
+					<div>
+						<span class="txt1">
+							Username
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="username" id="user_name" >
+						<span class="focus-input100"></span>
+					</div>
+					
+					<div style="margin-top: 10px;"	>
+						<span class="txt1">
+							Password
+						</span>
+
+						<button class="txt2 bo1 m-l-5" id="changePas" type="submit">
+                            Reset?
+                        </button>
+					</div>
+					<div class="wrap-input100 validate-input" style="margin-top: 10px;">
+						<input class="input100" type="password" name="pass" id="password" >
+						<span class="focus-input100"></span>
+					</div>
+
+					<div style="margin-top: 15px;">
+						<button class="login100-form-btn" id="login_button" type="button">
+							Sign In
+						</button>
+					</div>
+
+					<div style="text-align: center;margin-top: 10px;">
+						<span class="txt2">
+							Not a member?
+						</span>
+
+						<a href="register.html">
+							Sign up now
+						</a>
+						<br>
+						<img src="https://cdn.discordapp.com/attachments/918077642668912650/920705244474777650/unknown.png" style="width: 300px; height: 100px;">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+
+	
+
+<script type="module">
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
+	// TODO: Add SDKs for Firebase products that you want to use
+	// https://firebase.google.com/docs/web/setup#available-libraries
+  
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+	  apiKey: "AIzaSyCiCjNo7h8SBeIpy54_x5Fp9K4u2rYU68o",
+	  authDomain: "repcard-68a86.firebaseapp.com",
+	  projectId: "repcard-68a86",
+	  storageBucket: "repcard-68a86.appspot.com",
+	  messagingSenderId: "268606048540",
+	  appId: "1:268606048540:web:9fc7a08a01bc124f2e92d9"
+	};
+  
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+
+	import{
+		getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField
+	}
+	from "https://www.gstatic.com/firebasejs/9.3.0/firebase-firestore.js";
+
+	const db = getFirestore();
+
+	//CODE MAIN//
+
+
+	let forBtn = document.getElementById("forgotPas");
+
+	let nameBox = document.getElementById("user_name");
+	let pasBox = document.getElementById("password");
+
+	let logBtn = document.getElementById("login_button");
+	let regBtn = document.getElementById("register_button");
+
+	//document.querySelector(".contact-form").addEventListener("submit", forgetPas);
+	document.querySelector(".change").addEventListener("submit", change);
+
+	async function set(){
+		var ref = doc(db, "UsersList", nameBox.value);
+		var otp = Math.floor((Math.random() * 9000) + 999);
+	await updateDoc(
+		ref, {
+			otp: otp
+		}
+	)
+	}
+
+	async function change(e){
+	e.preventDefault();
+	var ref = doc(db, "UsersList", nameBox.value);
+	set();
+	const docSnap = await getDoc(ref);
+		var mail = docSnap.data().emailID;
+	var userNamess = nameBox.value;
+	var otpp = docSnap.data().otp;
+	if(nameBox.value != ""){
+	Email.send({
+		Host : "smtp.gmail.com",
+		Username : "repcard122@gmail.com",
+		Password : "Vanshu123!!",
+		To : `${mail}`,
+		From : "repcard122@gmail.com",
+		Subject : "Password change code",
+		Body : "Hi " + `${userNamess}` + ", \nthe code to change your Reports For U password is " + `${otpp}` + ". This code can only be used once and will be invalid after that."
+	}).then(()=>{
+		alert("Otp has been sent to your mail ID. A prompt will open in 15 seconds. Please enter the otp there");
+		setTimeout(()=>{
+			var recOTP = prompt("A code has been send to you registered mail ID. Please enter it to change your password", "");
+			var checkOTP = docSnap.data().otp;
+			if(recOTP == "" || recOTP == null){
+				alert("You have closed the password recovery");
+			} else{
+			if(recOTP == checkOTP){
+				alert("Otp confirmed");
+				var password = prompt("Enter new password", "");
+			    up();
+			} else{
+				alert("The otp was incorrect.");
+				nameBox.value = "";
+			}
+		}
+		}, 15000)
+		}) 
+	} else{
+		alert("Please add a user name");
+		nameBox.value = "";
+	}
+}
+async function up(){
+	var ref = doc(db, "UsersList", nameBox.value);
+	await updateDoc(
+		ref, {
+			Password: password
+		}
+	).then(()=>{
+						alert("Password has been successfully changed.");
+					})
+}
+
+async function forgetPas(e){
+	e.preventDefault();
+	var ref = doc(db, "UsersList", nameBox.value);
+	set();
+	const docSnap = await getDoc(ref);
+		var mail = docSnap.data().emailID;
+	var userNamess = nameBox.value;
+	var otpp = docSnap.data().otp;
+	if(nameBox.value != ""){
+	Email.send({
+		Host : "smtp.gmail.com",
+		Username : "repcard122@gmail.com",
+		Password : "Vanshu123!!",
+		To : `${mail}`,
+		From : "repcard122@gmail.com",
+		Subject : "Password recovery code",
+		Body : "Hi " + `${userNamess}` + ", \nthe code to recover your Reports For U password is " + `${otpp}` + ". This code can only be used once and will be invalid after that."
+	}).then(()=>{
+		alert("Otp has been sent to your mail ID. A prompt will open in 15 seconds. Please enter the otp there");
+		setTimeout(()=>{
+			var recOTP = prompt("A code has been send to you registered mail ID. Please enter it to recieve a mail with your password", "");
+			var checkOTP = docSnap.data().otp;
+			if(recOTP == "" || recOTP == null){
+				alert("You have closed the password recovery");
+			} else{
+			if(recOTP == checkOTP){
+				var passwordF = docSnap.data().Password;
+								Email.send({
+						Host : "smtp.gmail.com",
+						Username : "repcard122@gmail.com",
+						Password : "Vanshu123!!",
+						To : `${mail}`,
+						From : "repcard122@gmail.com",
+						Subject : "Password",
+						Body : "Hi " + `${userNamess}` + ", \n your Reports For U password is " + `${passwordF}`
+					}).then(()=>{
+						alert("Otp was confirmed. Your password has been sent to you email ID");
+					})
+			} else{
+				alert("The otp was incorrect.");
+				nameBox.value = "";
+			}
+		}
+		}, 15000)
+		}) 
+	} else{
+		alert("Please add a user name");
+		nameBox.value = "";
+	}
+}
+
+	async function login(e){
+		e.preventDefault();
+		var ref = doc(db, "UsersList", nameBox.value);
+		var userName = nameBox.value;
+		var password = pasBox.value;
+
+		const docSnap = await getDoc(ref);
+
+		var proffession = docSnap.data().proffesion;
+		localStorage.setItem("Prof", proffession);
+
+		if(docSnap.exists()){
+			if(password == docSnap.data().Password){
+				alert("Login Successful");
+				localStorage.setItem("userName", userName);
+				setTimeout(() => {
+					window.location = "home_page.html";
+				}, 1000);
+			} else{
+				alert("Password is incorrect. Please check your password");
+			}
+		} else{
+			alert("Please check your User Name. If you have not registered, please do so by clicking on the register button");
+		}
+	}
+
+	logBtn.addEventListener("click", login);
+
+	//mailtry//
+
+	
+</script>
+
+<script src="try.js"></script>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<title>BrainChat</title>
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/live/3.1/firebase.js"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<script src="try.js"></script>
+</head>
+<body>
+<div>
+<button id="logout" class="glyphicon glyphicon-log-out btn btn-danger" onclick="logout();"></button>
+<center>
+<div class="container">
+	
+
+		<label style="margin-bottom: 6px;font-size: larger;margin-top: 20px;">Ask a Question:</label>
+	<div class="hold">
+		<div class="wrap-input100">
+			<input type="text" id="room_name" class="input100" placeholder="Question Title">
+			<span class="focus-input100"></span>
+		</div>
+		
+		<button id="roomButton" class="btn btn-success">Ask</button>
+	</div>
+	<center>
+
+	<div id="output">		
+		<div id="stars">
+		<svg width="25" height="25" viewBox="0 0 24 24" ><path d="m12 16.618-4.944 2.599L8 13.71 4 9.812l5.528-.803L12 4l2.472 5.01L20 9.811l-4 3.9.944 5.505z" class="star" stroke="#666" stroke-width="1.5" fill="none" stroke-linejoin="round"></path></svg>
+		</div>
+		<h4 style="margin-top: -27px;margin-left: 30px;color: black;">	
+		Questions for you</h4>
+		<hr>
+	</div>
+	</center>
+</div>
+</center>
+</div>
+<script type="module">
+	// Import the functions you need from the SDKs you need
+	var r = '';
+	var newStr = '';
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.3.0/firebase-app.js";
+	// TODO: Add SDKs for Firebase products that you want to use
+	// https://firebase.google.com/docs/web/setup#available-libraries
+  
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+	  apiKey: "AIzaSyCiCjNo7h8SBeIpy54_x5Fp9K4u2rYU68o",
+	  authDomain: "repcard-68a86.firebaseapp.com",
+	  projectId: "repcard-68a86",
+	  storageBucket: "repcard-68a86.appspot.com",
+	  messagingSenderId: "268606048540",
+	  appId: "1:268606048540:web:9fc7a08a01bc124f2e92d9"
+	};
+  
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+
+	import{
+		getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField, getDocs
+	}
+	from "https://www.gstatic.com/firebasejs/9.3.0/firebase-firestore.js";
+
+	const db = getFirestore();
+
+	//CODE MAIN//
+
+	var user_name = localStorage.getItem("userName");
+	//document.getElementById("user_name").innerHTML = "Welcome " + user_name + "!";
+
+	let repBox = document.getElementById("room_name");
+	let addBtn = document.getElementById("roomButton");
+
+	let logBtn = document.getElementById("logout");
+	let output = document.getElementById("output");
+
+	var row="";
+	var repName;
+	var roomNames = [];
+
+	const querySnapshot = await getDocs(collection(db, "questions"));
+    querySnapshot.forEach((doc) => {
+    roomNames.push(doc.id);
+});
+
+var numberRooms = roomNames.length;
+
+console.log(roomNames);
+console.log(numberRooms);
+var i = 0;
+
+for (i; i < numberRooms; i++){
+			
+	var str = roomNames[i]
+	 newStr = str.replace(/ /g, "-");
+	 console.log(newStr)
+	row = "<div class='room_name' ><h4 class='questions'>" + roomNames[i] + "</h4></div><br><div class='answer'id=" + newStr + " onclick=redirectToRoomName(this.id)><img src='answer.png' class='answerimage'><p class='answertext'>Answer</p></div><hr>";
+	document.getElementById("output").innerHTML += row;
+	
+}
+
+	async function logout(){
+		localStorage.removeItem("userName");
+		localStorage.removeItem("OpenedRep")
+		window.location = "index.html";
+	}
+
+	async function addRoom(){
+		var ref = doc(db, "questions", repBox.value);
+
+	const docRef = await setDoc(
+		ref, {
+			RepCardName: repBox.value,
+			dataAdded: false,
+			askedBy: user_name
+		}
+	)
+
+	.then(()=>{
+		GetName();
+	})
+	.catch((error)=>{
+		alert("Unsuccessful, error: " + error);
+	})
+	}
+
+	async function GetName(){
+		var ref = doc(db, "questions", repBox.value);
+
+		const docSnap = await getDoc(ref);
+		repName = docSnap.data().RepCardName;
+		console.log("Names"+repName)
+		if(docSnap.exists()){
+			roomCreate();
+		}
+	}
+
+	async function roomCreate(){
+	row = "<div class='room_name' >" + repName + "</div><br><div class='answer'id=" + newStr + " onclick='redirectToRoomName(this.id)'><p class='answertext'>Answer</p></div><hr>";
+	
+	document.getElementById("output").innerHTML += row;
+	window.location.reload()
+	}
+
+	addBtn.addEventListener("click", addRoom);
+	logBtn.addEventListener("click", logout);
+
+
+	</script>
+</body>
+</html>
